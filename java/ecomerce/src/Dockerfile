@@ -1,0 +1,9 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD=Admin123
+ENV MYSQL_DATABASE=EcomerceDb
+
+
+EXPOSE 3306
+
+CMD ["mysqld"]
