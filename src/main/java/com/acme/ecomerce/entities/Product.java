@@ -26,4 +26,6 @@ public class Product {
     @OneToOne
     @JoinColumn(name = "seller_id")
     public Seller seller;
+
+
 }
