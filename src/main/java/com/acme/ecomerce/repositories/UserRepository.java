@@ -1,4 +1,7 @@
 package com.acme.ecomerce.repositories;
+import com.acme.ecomerce.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class UserRepository {
+public interface UserRepository
+        extends JpaRepository <User, Long> {
 }
