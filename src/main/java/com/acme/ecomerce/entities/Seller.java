@@ -13,13 +13,13 @@ public class Seller {
     @JoinColumn(name = "user_id")
     public User user;
 
-    public Seller(){
+    public Seller() {
     }
 
     public Seller(
-        long seller_id,
-        User user
-    ){
+            long seller_id,
+            User user
+    ) {
         this.seller_id = seller_id;
         this.user = user;
     }
@@ -40,5 +40,5 @@ public class Seller {
         this.user = user;
     }
 
-    
+
 }

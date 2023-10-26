@@ -55,4 +55,5 @@ public class UserService implements UserServiceContract {
     public String hashPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
+
 }

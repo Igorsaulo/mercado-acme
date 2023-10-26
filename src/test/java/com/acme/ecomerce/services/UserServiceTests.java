@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.acme.ecomerce.entities.User;
@@ -15,7 +16,6 @@ import com.acme.ecomerce.repositories.UserRepository;
 import com.acme.ecomerce.repositories.SellerRepository;
 import com.acme.ecomerce.repositories.CustomerRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.acme.ecomerce.services.UserService;
 
 public class UserServiceTests {
     @Mock
@@ -75,13 +75,12 @@ public class UserServiceTests {
         seller.setSeller_id(1);
 
         // Act
-        when(userService.createSeller(user)).thenReturn(seller);
+        when(sellerRepository.save(any(Seller.class))).thenReturn(seller);
         final Seller result = userService.createSeller(user);
 
         // Assert
         assertEquals(seller, result);
     }
-
 
 
     @Test
@@ -102,7 +101,7 @@ public class UserServiceTests {
         customer.setCustomer_id(1);
 
         // Act
-        when(userService.createCustomer(user)).thenReturn(customer);
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
         final Customer result = userService.createCustomer(user);
 
         // Assert
