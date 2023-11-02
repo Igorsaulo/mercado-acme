@@ -9,8 +9,6 @@ import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Console;
-
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -39,15 +37,13 @@ public class UserController {
         userRepository.deleteById(id);
     }
 
-    @PutMapping
+    @PatchMapping
     public User updateUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        return user;
-
+        return userRepository.findById(id).orElse(null);
     }
 }
