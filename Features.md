@@ -1,8 +1,8 @@
-- [ ] Usuarios
-	- [ ] Criar usuario
-	- [ ] Deletar usuario
-	- [ ] Atualizar usuario
-	- [ ] Visualizar usuario
+- [x] Usuarios
+	- [x] Criar usuario
+	- [x] Deletar usuario
+	- [x] Atualizar usuario
+	- [x] Visualizar usuario
 
 - [ ] Vendedor
 	- [ ] Publicar novo produto

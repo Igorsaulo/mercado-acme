@@ -5,8 +5,11 @@ import com.acme.ecomerce.entities.User;
 import com.acme.ecomerce.entities.Seller;
 import com.acme.ecomerce.entities.Customer;
 import com.acme.ecomerce.services.UserService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.Console;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -21,27 +24,30 @@ public class UserController {
     }
 
     @PostMapping("/customer")
-    public Customer createCusomer(@RequestBody User user){
-        return  userService.createCustomer(user);
+    public Customer createCusomer(@RequestBody User user) {
+        return userService.createCustomer(user);
     }
 
     @PostMapping("/seller")
-    public Seller createSeller(@RequestBody User user){
-        return  userService.createSeller(user);
+    @PermitAll
+    public Seller createSeller(@RequestBody User user) {
+        return userService.createSeller(user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User user){
+    public User updateUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id){
-        return userRepository.getById(id);
+    public User getUserById(@PathVariable Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user;
+
     }
 }
