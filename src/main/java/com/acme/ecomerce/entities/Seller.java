@@ -7,29 +7,27 @@ import jakarta.persistence.*;
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long seller_id;
+    @Column(name = "seller_id")
+    private Long sellerId;
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    public User user;
+    private User user;
 
     public Seller() {
     }
 
-    public Seller(
-            long seller_id,
-            User user
-    ) {
-        this.seller_id = seller_id;
+    public Seller(Long sellerId, User user) {
+        this.sellerId = sellerId;
         this.user = user;
     }
 
-    public long getSeller_id() {
-        return seller_id;
+    public Long getSellerId() {
+        return sellerId;
     }
 
-    public void setSeller_id(long seller_id) {
-        this.seller_id = seller_id;
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 
     public User getUser() {
@@ -39,6 +37,4 @@ public class Seller {
     public void setUser(User user) {
         this.user = user;
     }
-
-
 }

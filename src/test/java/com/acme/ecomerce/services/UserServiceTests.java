@@ -1,6 +1,7 @@
 package com.acme.ecomerce.services;
 
 import com.acme.ecomerce.entities.Customer;
+import com.acme.ecomerce.exception.user.UserAlreadyExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +17,9 @@ import com.acme.ecomerce.repositories.UserRepository;
 import com.acme.ecomerce.repositories.SellerRepository;
 import com.acme.ecomerce.repositories.CustomerRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Optional;
+import com.acme.ecomerce.exception.user.UserNotFoundException;
 
 public class UserServiceTests {
     @Mock
@@ -41,20 +45,20 @@ public class UserServiceTests {
                 customerRepository
         );
         User user = new User();
-        user.setUser_id(1);
-        user.setUser_name("test");
-        user.setUser_email("igor@gmail.com");
-        user.setUser_password("123456");
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("igor@gmail.com");
+        user.setUserPassword("123456");
 
         // Act
         when(userRepository.save(user)).thenReturn(user);
         final User result = userService.createUser(user);
 
         // Assert
-        assertEquals(1, result.getUser_id());
-        assertEquals("test", result.getUser_name());
-        assertEquals("igor@gmail.com", result.getUser_email());
-        assertTrue(new BCryptPasswordEncoder().matches("123456", result.getUser_password()));
+        assertEquals(1, result.getUserId());
+        assertEquals("test", result.getUserName());
+        assertEquals("igor@gmail.com", result.getUserEmail());
+        assertTrue(new BCryptPasswordEncoder().matches("123456", result.getUserPassword()));
     }
 
     @Test
@@ -66,13 +70,13 @@ public class UserServiceTests {
                 customerRepository
         );
         User user = new User();
-        user.setUser_id(1);
-        user.setUser_name("test");
-        user.setUser_email("igor@gmail.com");
-        user.setUser_password("123456");
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("igor@gmail.com");
+        user.setUserPassword("123456");
 
         Seller seller = new Seller();
-        seller.setSeller_id(1);
+        seller.setSellerId(1L);
 
         // Act
         when(sellerRepository.save(any(Seller.class))).thenReturn(seller);
@@ -92,13 +96,13 @@ public class UserServiceTests {
                 customerRepository
         );
         User user = new User();
-        user.setUser_id(1);
-        user.setUser_name("test");
-        user.setUser_email("igor@gmail.com");
-        user.setUser_password("123456");
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("igor@gmail.com");
+        user.setUserPassword("123456");
 
         Customer customer = new Customer();
-        customer.setCustomer_id(1);
+        customer.setCustomerId(1);
 
         // Act
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
@@ -106,5 +110,71 @@ public class UserServiceTests {
 
         // Assert
         assertEquals(customer, result);
+    }
+
+    @Test
+    public void testGetUserByEmail() {
+        // Arrange
+        UserService userService = new UserService(
+                userRepository,
+                sellerRepository,
+                customerRepository
+        );
+        User user = new User();
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("john.doe@gmail.com");
+        user.setUserPassword("123456");
+
+        // Act
+        when(userRepository.findByUserEmail("john.doe@gmail.com")).thenReturn(java.util.Optional.of(user));
+        final Optional<User> result = userService.getUserByEmail("john.doe@gmail.com");
+
+        // Assert
+        assertEquals(user, result.get());
+    }
+
+    @Test
+    public void testCreateUserException() {
+        // Arrange
+        UserService userService = new UserService(
+                userRepository,
+                sellerRepository,
+                customerRepository
+        );
+        User user = new User();
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("john.doe@gmail.com");
+        user.setUserPassword("123456");
+
+        when(userRepository.findByUserEmail("john.doe@gmail.com")).thenReturn(Optional.of(user));
+
+        // Act e Assert
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(user));
+    }
+
+
+    @Test
+    public void testGetUserByEmailException() {
+        // Arrange
+        UserService userService = new UserService(
+                userRepository,
+                sellerRepository,
+                customerRepository
+        );
+        User user = new User();
+        user.setUserId(1);
+        user.setUserName("test");
+        user.setUserEmail("john.doe@gmail.com");
+        user.setUserPassword("123456");
+
+        // Act
+        when(userRepository.findByUserEmail("john.doe@gmail.com")).thenReturn(java.util.Optional.of(user));
+        final UserNotFoundException result = assertThrows(UserNotFoundException.class,
+                () -> userService.getUserByEmail("jose@gmail.com"));
+
+        // Assert
+        assertEquals("User not found", result.getMessage());
     }
 }

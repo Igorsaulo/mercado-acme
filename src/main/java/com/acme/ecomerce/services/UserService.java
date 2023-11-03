@@ -1,6 +1,8 @@
 package com.acme.ecomerce.services;
 
 import com.acme.ecomerce.entities.Customer;
+import com.acme.ecomerce.exception.user.UserAlreadyExistsException;
+import com.acme.ecomerce.exception.user.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.acme.ecomerce.entities.User;
 import com.acme.ecomerce.entities.Seller;
@@ -9,6 +11,8 @@ import com.acme.ecomerce.repositories.SellerRepository;
 import com.acme.ecomerce.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService implements UserServiceContract {
@@ -29,7 +33,12 @@ public class UserService implements UserServiceContract {
 
     @Override
     public User createUser(User user) {
-        user.setUser_password(hashPassword(user.getUser_password()));
+        User userExists = userRepository
+                .findByUserEmail(user.getUserEmail()).orElse(null);
+        if (userExists != null) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+        user.setUserPassword(hashPassword(user.getUserPassword()));
         return userRepository.save(user);
     }
 
@@ -56,4 +65,9 @@ public class UserService implements UserServiceContract {
         return new BCryptPasswordEncoder().encode(password);
     }
 
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found")));
+    }
 }

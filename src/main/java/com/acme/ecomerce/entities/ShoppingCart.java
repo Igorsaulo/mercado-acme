@@ -4,67 +4,75 @@ import org.hibernate.type.descriptor.java.ShortJavaType;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "shopping_cart")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long shopping_cart_id;
-    public long shopping_cart_user_id;
-    public long total_price;
-    public long total_items;
+    private Long shoppingCartId;
+
+    @Column(name = "shopping_cart_user_id")
+    private Long shoppingCartUserId;
+
+    @Column(name = "total_price", precision = 10, scale = 2)
+    private BigDecimal totalPrice;
+
+    @Column(name = "total_items")
+    private Integer totalItems;
 
     @OneToOne
     @JoinColumn(name = "customer_id")
-    public Customer customer;
+    private Customer customer;
 
-    public ShoppingCart(){
+    public ShoppingCart() {
     }
 
     public ShoppingCart(
-        long shopping_cart_id,
-        long shopping_cart_user_id,
-        long total_price,
-        long total_items,
-        Customer customer
-    ){
-        this.shopping_cart_id = shopping_cart_id;
-        this.shopping_cart_user_id = shopping_cart_user_id;
-        this.total_price = total_price;
-        this.total_items = total_items;
+            Long shoppingCartId,
+            Long shoppingCartUserId,
+            BigDecimal totalPrice,
+            Integer totalItems,
+            Customer customer
+    ) {
+        this.shoppingCartId = shoppingCartId;
+        this.shoppingCartUserId = shoppingCartUserId;
+        this.totalPrice = totalPrice;
+        this.totalItems = totalItems;
         this.customer = customer;
     }
 
-    public long getShopping_cart_id() {
-        return shopping_cart_id;
+    public Long getShoppingCartId() {
+        return shoppingCartId;
     }
 
-    public void setShopping_cart_id(long shopping_cart_id) {
-        this.shopping_cart_id = shopping_cart_id;
+    public void setShoppingCartId(Long shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
     }
 
-    public long getShopping_cart_user_id() {
-        return shopping_cart_user_id;
+    public Long getShoppingCartUserId() {
+        return shoppingCartUserId;
     }
 
-    public void setShopping_cart_user_id(long shopping_cart_user_id) {
-        this.shopping_cart_user_id = shopping_cart_user_id;
+    public void setShoppingCartUserId(Long shoppingCartUserId) {
+        this.shoppingCartUserId = shoppingCartUserId;
     }
 
-    public long getTotal_price() {
-        return total_price;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotal_price(long total_price) {
-        this.total_price = total_price;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public long getTotal_items() {
-        return total_items;
+    public Integer getTotalItems() {
+        return totalItems;
     }
 
-    public void setTotal_items(long total_items) {
-        this.total_items = total_items;
+    public void setTotalItems(Integer totalItems) {
+        this.totalItems = totalItems;
     }
 
     public Customer getCustomer() {
@@ -74,7 +82,4 @@ public class ShoppingCart {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    
-
 }

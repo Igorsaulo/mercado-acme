@@ -1,16 +1,24 @@
 package com.acme.ecomerce.entities;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long order_id;
-    private long order_user_id;
-    private long order_total_price;
-    private long order_total_items;
+    @Column(name = "order_id")
+    private Long orderId;
+
+    @Column(name = "order_user_id")
+    private Long orderUserId;
+
+    @Column(name = "order_total_price", precision = 10, scale = 2)
+    private BigDecimal orderTotalPrice;
+
+    @Column(name = "order_total_items")
+    private Integer orderTotalItems;
 
     @OneToOne
     @JoinColumn(name = "customer_id")
@@ -24,47 +32,56 @@ public class Order {
     }
 
     public Order(
-        long order_id,
-        long order_user_id,
-        long order_total_price,
-        long order_total_items,
-        Customer customer,
-        Seller seller) {
-        this.order_id = order_id;
-        this.order_user_id = order_user_id;
-        this.order_total_price = order_total_price;
-        this.order_total_items = order_total_items;
+            Long orderId,
+            Long orderUserId,
+            BigDecimal orderTotalPrice,
+            Integer orderTotalItems,
+            Customer customer,
+            Seller seller) {
+        this.orderId = orderId;
+        this.orderUserId = orderUserId;
+        this.orderTotalPrice = orderTotalPrice;
+        this.orderTotalItems = orderTotalItems;
         this.customer = customer;
         this.seller = seller;
     }
 
-    public long getOrder_id() {
-        return order_id;
+    public Long getOrderId() {
+        return orderId;
     }
-    public void setOrder_id(long order_id) {
-        this.order_id = order_id;
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
-    public long getOrder_user_id() {
-        return order_user_id;
+
+    public Long getOrderUserId() {
+        return orderUserId;
     }
-    public void setOrder_user_id(long order_user_id) {
-        this.order_user_id = order_user_id;
+
+    public void setOrderUserId(Long orderUserId) {
+        this.orderUserId = orderUserId;
     }
-    public long getOrder_total_price() {
-        return order_total_price;
+
+    public BigDecimal getOrderTotalPrice() {
+        return orderTotalPrice;
     }
-    public void setOrder_total_price(long order_total_price) {
-        this.order_total_price = order_total_price;
+
+    public void setOrderTotalPrice(BigDecimal orderTotalPrice) {
+        this.orderTotalPrice = orderTotalPrice;
     }
-    public long getOrder_total_items() {
-        return order_total_items;
+
+    public Integer getOrderTotalItems() {
+        return orderTotalItems;
     }
-    public void setOrder_total_items(long order_total_items) {
-        this.order_total_items = order_total_items;
+
+    public void setOrderTotalItems(Integer orderTotalItems) {
+        this.orderTotalItems = orderTotalItems;
     }
+
     public Customer getCustomer() {
         return customer;
     }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -72,6 +89,7 @@ public class Order {
     public Seller getSeller() {
         return seller;
     }
+
     public void setSeller(Seller seller) {
         this.seller = seller;
     }

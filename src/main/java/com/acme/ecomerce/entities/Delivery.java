@@ -2,7 +2,6 @@ package com.acme.ecomerce.entities;
 
 import jakarta.persistence.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -10,10 +9,20 @@ import java.util.Date;
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long delivery_id;
-    private Date delivery_date;
-    private Date previous_delivery_date;
-    private Date next_delivery_date;
+    @Column(name = "delivery_id")
+    private Long deliveryId;
+
+    @Column(name = "delivery_date")
+    @Temporal(TemporalType.DATE)
+    private Date deliveryDate;
+
+    @Column(name = "previous_delivery_date")
+    @Temporal(TemporalType.DATE)
+    private Date previousDeliveryDate;
+
+    @Column(name = "next_delivery_date")
+    @Temporal(TemporalType.DATE)
+    private Date nextDeliveryDate;
 
     @OneToOne
     @JoinColumn(name = "sale_id")
@@ -21,46 +30,56 @@ public class Delivery {
 
     public Delivery() {
     }
-    public  Delivery(
-        long delivery_id,
-        Date delivery_date,
-        Date previous_delivery_date,
-        Date next_delivery_date,
-        Sale sale) {
-        this.delivery_id = delivery_id;
-        this.delivery_date = delivery_date;
-        this.previous_delivery_date = previous_delivery_date;
-        this.next_delivery_date = next_delivery_date;
+
+    public Delivery(
+            Long deliveryId,
+            Date deliveryDate,
+            Date previousDeliveryDate,
+            Date nextDeliveryDate,
+            Sale sale) {
+        this.deliveryId = deliveryId;
+        this.deliveryDate = deliveryDate;
+        this.previousDeliveryDate = previousDeliveryDate;
+        this.nextDeliveryDate = nextDeliveryDate;
         this.sale = sale;
     }
 
-    public long getDelivery_id() {
-        return delivery_id;
+    public Long getDeliveryId() {
+        return deliveryId;
     }
-    public void setDelivery_id(long delivery_id) {
-        this.delivery_id = delivery_id;
+
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
     }
-    public Date getDelivery_date() {
-        return delivery_date;
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
-    public void setDelivery_date(Date delivery_date) {
-        this.delivery_date = delivery_date;
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
-    public Date getPrevious_delivery_date() {
-        return previous_delivery_date;
+
+    public Date getPreviousDeliveryDate() {
+        return previousDeliveryDate;
     }
-    public void setPrevious_delivery_date(Date previous_delivery_date) {
-        this.previous_delivery_date = previous_delivery_date;
+
+    public void setPreviousDeliveryDate(Date previousDeliveryDate) {
+        this.previousDeliveryDate = previousDeliveryDate;
     }
-    public Date getNext_delivery_date() {
-        return next_delivery_date;
+
+    public Date getNextDeliveryDate() {
+        return nextDeliveryDate;
     }
-    public void setNext_delivery_date(Date next_delivery_date) {
-        this.next_delivery_date = next_delivery_date;
+
+    public void setNextDeliveryDate(Date nextDeliveryDate) {
+        this.nextDeliveryDate = nextDeliveryDate;
     }
+
     public Sale getSale() {
         return sale;
     }
+
     public void setSale(Sale sale) {
         this.sale = sale;
     }

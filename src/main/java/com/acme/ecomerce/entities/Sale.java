@@ -1,63 +1,63 @@
 package com.acme.ecomerce.entities;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "sales")
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long sale_id;
-    public long sale_total_price;
-    public long sale_total_items;
+    @Column(name = "sale_id")
+    private Long saleId;
+
+    @Column(name = "sale_total_price", precision = 10, scale = 2)
+    private BigDecimal saleTotalPrice;
+
+    @Column(name = "sale_total_items")
+    private Integer saleTotalItems;
 
     @OneToOne
     @JoinColumn(name = "seller_id")
-    public Seller seller;
+    private Seller seller;
 
     @OneToOne
     @JoinColumn(name = "customer_id")
-    public Customer customer;
+    private Customer customer;
 
-    public Sale(){
+    public Sale() {
     }
 
-    public Sale(
-        long sale_id,
-        long sale_total_price,
-        long sale_total_items, 
-        Seller seller,
-        Customer customer
-    ){
-        this.sale_id = sale_id;
-        this.sale_total_price = sale_total_price;
-        this.sale_total_items = sale_total_items;
+    public Sale(Long saleId, BigDecimal saleTotalPrice, Integer saleTotalItems, Seller seller, Customer customer) {
+        this.saleId = saleId;
+        this.saleTotalPrice = saleTotalPrice;
+        this.saleTotalItems = saleTotalItems;
         this.seller = seller;
         this.customer = customer;
     }
 
-    public long getSale_id() {
-        return sale_id;
+    public Long getSaleId() {
+        return saleId;
     }
 
-    public void setSale_id(long sale_id) {
-        this.sale_id = sale_id;
+    public void setSaleId(Long saleId) {
+        this.saleId = saleId;
     }
 
-    public long getSale_total_price() {
-        return sale_total_price;
+    public BigDecimal getSaleTotalPrice() {
+        return saleTotalPrice;
     }
 
-    public void setSale_total_price(long sale_total_price) {
-        this.sale_total_price = sale_total_price;
+    public void setSaleTotalPrice(BigDecimal saleTotalPrice) {
+        this.saleTotalPrice = saleTotalPrice;
     }
 
-    public long getSale_total_items() {
-        return sale_total_items;
+    public Integer getSaleTotalItems() {
+        return saleTotalItems;
     }
 
-    public void setSale_total_items(long sale_total_items) {
-        this.sale_total_items = sale_total_items;
+    public void setSaleTotalItems(Integer saleTotalItems) {
+        this.saleTotalItems = saleTotalItems;
     }
 
     public Seller getSeller() {
@@ -75,6 +75,4 @@ public class Sale {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    
 }

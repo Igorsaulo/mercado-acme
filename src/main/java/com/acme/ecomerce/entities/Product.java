@@ -1,113 +1,127 @@
 package com.acme.ecomerce.entities;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long product_id;
-    public String product_name;
-    public String product_description;
-    public String product_image;
-    public String product_category;
-    public long product_price;
-    public long product_stock;
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "product_name", length = 255)
+    private String productName;
+
+    @Column(name = "product_description", columnDefinition = "TEXT")
+    private String productDescription;
+
+    @Column(name = "product_image", length = 255)
+    private String productImage;
+
+    @Column(name = "product_category", length = 255)
+    private String productCategory;
+
+    @Column(name = "product_price", precision = 10, scale = 2)
+    private BigDecimal productPrice;
+
+    @Column(name = "product_stock")
+    private Integer productStock;
 
     @ManyToOne
     @JoinColumn(name = "sale_id")
-    public Sale sale;
+    private Sale sale;
 
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")
-    public ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCart;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "seller_id")
-    public Seller seller;
+    private Seller seller;
 
-    public Product(){
+    public Product() {
     }
 
     public Product(
-        long product_id,
-        String product_name,
-        String product_description,
-        String product_image,
-        String product_category,
-        long product_price,
-        long product_stock,
-        Sale sale,
-        ShoppingCart shoppingCart,
-        Seller seller
+            Long productId,
+            String productName,
+            String productDescription,
+            String productImage,
+            String productCategory,
+            BigDecimal productPrice,
+            Integer productStock,
+            Sale sale,
+            ShoppingCart shoppingCart,
+            Seller seller
     ){
-        this.product_id = product_id;
-        this.product_name = product_name;
-        this.product_description = product_description;
-        this.product_image = product_image;
-        this.product_category = product_category;
-        this.product_price = product_price;
-        this.product_stock = product_stock;
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productImage = productImage;
+        this.productCategory = productCategory;
+        this.productPrice = productPrice;
+        this.productStock = productStock;
         this.sale = sale;
         this.shoppingCart = shoppingCart;
         this.seller = seller;
     }
 
-    public long getProduct_id() {
-        return product_id;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(long product_id) {
-        this.product_id = product_id;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getProduct_description() {
-        return product_description;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public void setProduct_description(String product_description) {
-        this.product_description = product_description;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
-    public String getProduct_image() {
-        return product_image;
+    public String getProductImage() {
+        return productImage;
     }
 
-    public void setProduct_image(String product_image) {
-        this.product_image = product_image;
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
-    public String getProduct_category() {
-        return product_category;
+    public String getProductCategory() {
+        return productCategory;
     }
 
-    public void setProduct_category(String product_category) {
-        this.product_category = product_category;
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 
-    public long getProduct_price() {
-        return product_price;
+    public BigDecimal getProductPrice() {
+        return productPrice;
     }
 
-    public void setProduct_price(long product_price) {
-        this.product_price = product_price;
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public long getProduct_stock() {
-        return product_stock;
+    public Integer getProductStock() {
+        return productStock;
     }
 
-    public void setProduct_stock(long product_stock) {
-        this.product_stock = product_stock;
+    public void setProductStock(Integer productStock) {
+        this.productStock = productStock;
     }
 
     public Sale getSale() {
@@ -133,7 +147,4 @@ public class Product {
     public void setSeller(Seller seller) {
         this.seller = seller;
     }
-
-    
-
 }
