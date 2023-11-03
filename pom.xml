@@ -15,6 +15,9 @@
     <description>ecomerce</description>
     <properties>
         <java.version>21</java.version>
+        <flyway.user>root</flyway.user>
+        <flyway.password>Admin123</flyway.password>
+        <flyway.schemas>EcomerceDb</flyway.schemas>
     </properties>
     <dependencies>
         <dependency>
@@ -62,6 +65,10 @@
             <version>2.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -72,5 +79,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
